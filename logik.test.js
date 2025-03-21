@@ -32,50 +32,126 @@ Return:
 ]
 */
 
-/****TESTSTRATEGI**** 
-
-Testfall 1: - Alla bokstäver är korrekta och på rätt plats
-guessedWord: "ABCDE"
-correctWord: "ABCDE"
-- Förväntat resultat: Alla bokstäver ska ha result: "correct"
+import { evaluateGuess } from './logik.js';
+import { describe, expect, it } from '@jest/globals';
 
 
-Testfall 2: - Alla bokstäver är fel
-guessedWord: "ABCDE"
-correctWord: "FGHIJ"
-- Förväntat resultat: Alla bokstäver ska ha result: "incorrect"
-
-Testfall 3: - Några bokstäver är korrekta och på rätt plats
-guessedWord: "ABCDE"
-correctWord: "ABFGH"
-- Förväntat resultat:
-- A: "correct"
-- B: "correct"
-- C, D, E: "incorrect"
-
-Testfall 4: -Rätt bokstav på fel plats
-guessedWord: "ABCDE"
-correctWord: "ECDAB"
-- Förväntat resultat: Alla bokstäver ska ha result: "misplaced"
-
-Testfall 5: - Dubletter i guessedWord men bara en finns i correctWord
-guessedWord: "AABCD"
-correctWord: "CDAEF"
-- Förväntat resultat:
-- A: "misplaced"
-- A: "incorrect" - Finns bara en A i correctWord
-- B: "incorrect"
-- C: "correct"
-- D: "misplaced"
-
-Testfall 6: - Dubletter där en bokstav är korrekt och en är på fel plats
-guessedWord: "AABCD"
-correctWord: "AEAEE"
-- Förväntat resultat:
-- A: "correct"
-- A: "misplaced"
-- B, C, D: "incorrect"
+describe('evaluateGuess', () => { 
+ 
+ 
+  /****Testfall 1: Alla bokstäver är korrekta och på rätt plats****/
+  
+  it('should mark all letters as "correct" if all is on correct place', () => {
+    const guessedWord = "ABCDE";
+    const correctWord = "ABCDE";
+    const result = evaluateGuess(guessedWord, correctWord);
+    
+    expect(result).toEqual([
+      { letter: "A", result: "correct" },
+      { letter: "B", result: "correct" },
+      { letter: "C", result: "correct" },
+      { letter: "D", result: "correct" },
+      { letter: "E", result: "correct" }
+    ]);
+  });
 
 
+  /****Testfall 2: Alla bokstäver är fel****/
 
-*/
+  it('should mark all letters as "incorrect" if none är correct', () => {
+    const guessedWord = "ABCDE";
+    const correctWord = "FGHIJ";
+    const result = evaluateGuess(guessedWord, correctWord);
+      
+    expect(result).toEqual([
+      { letter: "A", result: "incorrect" },
+      { letter: "B", result: "incorrect" },
+      { letter: "C", result: "incorrect" },
+      { letter: "D", result: "incorrect" },
+      { letter: "E", result: "incorrect" }
+    ]);
+  })
+
+
+  /****Testfall 3: Några bokstäver är korrekta och på rätt plats****/
+
+  it('should mark correct letters on correct place as "correct" and the rest as "incorrect"', () => {
+    const guessedWord = "ABCDE";
+    const correctWord ="ABFGH";
+    const result = evaluateGuess(guessedWord, correctWord);
+
+    expect(result).toEqual([
+      { letter: "A", result: "correct" },
+      { letter: "B", result: "correct" },
+      { letter: "C", result: "incorrect" },
+      { letter: "D", result: "incorrect" },
+      { letter: "E", result: "incorrect" }
+    ]);
+  })
+
+  /****Testfall 4: Rätt bokstav på fel plats****/
+
+  it('should mark all letters as "misplaced"', () => {
+    const guessedWord = "ABCDE";
+    const correctWord = "ECDAB";
+    const result = evaluateGuess(guessedWord, correctWord);
+
+    expect(result).toEqual([
+      { letter: "A", result: "misplaced" },
+      { letter: "B", result: "misplaced" },
+      { letter: "C", result: "misplaced" },
+      { letter: "D", result: "misplaced" },
+      { letter: "E", result: "misplaced" }
+    ]);
+  });
+
+
+  /****Testfall 5: Gissat ord innehåller dubletter av en bokstav där den första förekomsten av bokstaven är korrekt placerad****/
+
+  it('should handle duplicate letters correctly when the first occurrence of the letter is correctly placed', () => {
+    const guessedWord = "AABCD";
+    const correctWord = "ACDEF";
+    const result = evaluateGuess(guessedWord, correctWord);
+
+    expect(result).toEqual([
+      { letter: "A", result: "correct" },
+      { letter: "A", result: "incorrect" },
+      { letter: "B", result: "incorrect" },
+      { letter: "C", result: "misplaced" },
+      { letter: "D", result: "misplaced" }
+    ]);
+  });
+
+  /****Testfall 6: Gissat ord  innehåller dubletter av en bokstav där den andra förekomsten av bokstaven är korrekt placerad.****/
+
+  it('should handle duplicate letters correctly when the second occurrence of the same letter is correctly placed', () => {
+    const guessedWord = "HELLO";
+    const correctWord = "CYCLE";
+    const result = evaluateGuess(guessedWord, correctWord);
+
+    expect(result).toEqual([
+      { letter: "H", result: "incorrect" },
+      { letter: "E", result: "misplaced" },
+      { letter: "L", result: "incorrect" },
+      { letter: "L", result: "correct" },
+      { letter: "O", result: "incorrect" }
+    ]);
+  });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
