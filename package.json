@@ -1,0 +1,16 @@
+{
+  "name": "ordspel-inlamning-1-algoritmer",
+  "type": "module",
+  "version": "1.0.0",
+  "main": "logik.js",
+  "scripts": {
+    "test": "jest --experimental-vm-modules"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
