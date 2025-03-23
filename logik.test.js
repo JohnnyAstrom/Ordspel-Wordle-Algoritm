@@ -26,8 +26,8 @@ Return:
 [
   { letter: "H", result: "incorrect" },
   { letter: "E", result: "misplaced" },
+  { letter: "L", result: "incorrect" },
   { letter: "L", result: "correct" },
-  { letter: "L", result: "misplaced" },
   { letter: "O", result: "incorrect" }
 ]
 */
